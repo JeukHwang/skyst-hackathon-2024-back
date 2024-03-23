@@ -14,7 +14,6 @@ model User {
   id String @id @default(uuid())
 
   name         String  @unique()
-  email        String  @unique()
   password     String
   introduction String
   profilePhoto String // S3
