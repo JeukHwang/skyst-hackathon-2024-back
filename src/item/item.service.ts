@@ -6,6 +6,8 @@ export type ItemProfile = {
   name: string;
   type: string;
   photo: string;
+  price: number;
+  description: string;
 };
 
 export function toItemProfile(item: any): ItemProfile {
@@ -14,6 +16,8 @@ export function toItemProfile(item: any): ItemProfile {
     name: item.name,
     type: item.type,
     photo: item.photo,
+    price: item.price,
+    description: item.description,
   };
 }
 

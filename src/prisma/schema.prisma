@@ -31,9 +31,11 @@ model User {
 model Item {
   id String @id @default(uuid())
 
-  name  String
-  type  String
-  photo String // S3
+  name        String
+  type        String
+  photo       String
+  price       Int
+  description String
 
   deletedAt DateTime?
   createdAt DateTime  @default(now())
