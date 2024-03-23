@@ -71,3 +71,13 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 ## License
 
 Nest is [MIT licensed](LICENSE).
+
+---
+
+custom build command
+PORT
+cors 에러
+환경변수 세팅
+domain 연결
+frontend에서 사용한 domain 확인
+
