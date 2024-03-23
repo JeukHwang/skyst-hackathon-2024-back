@@ -118,15 +118,24 @@ export class UserService {
           id: user.id,
         },
       },
-      include: {
+      select: {
+        id: true,
         sended: {
-          include: {
-            item: true,
+          select: {
+            item: {
+              select: {
+                price: true,
+              },
+            },
           },
         },
         received: {
-          include: {
-            item: true,
+          select: {
+            item: {
+              select: {
+                price: true,
+              },
+            },
           },
         },
       },
