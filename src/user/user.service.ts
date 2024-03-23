@@ -23,7 +23,7 @@ export class UserService {
   async create(userInfo: RegisterRequestDto): Promise<User | null> {
     try {
       const user = await this.prismaService.user.create({
-        data: { ...userInfo, profilePhoto: '' } as User,
+        data: { ...userInfo, profilePhoto: '', introduction: '' } as User,
       });
       return user;
     } catch (e) {
