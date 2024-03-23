@@ -86,6 +86,10 @@ export class GiftService {
   async find(giftId: string, user: User): Promise<GiftProfile> {
     const gift = await this.prismaService.gift.findUnique({
       where: { id: giftId },
+      include: {
+        sender: true,
+        receiver: true,
+      },
     });
     await this.prismaService.gift.update({
       where: { id: gift.id },
@@ -102,6 +106,10 @@ export class GiftService {
             : undefined,
       },
     });
-    return toGiftProfile(gift);
+    return {
+      ...toGiftProfile(gift),
+      senderName: gift.sender.name,
+      receiverName: gift.receiver.name,
+    } as GiftProfile;
   }
 }
