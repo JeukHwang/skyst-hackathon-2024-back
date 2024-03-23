@@ -3,7 +3,7 @@ import { User } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
 import { RegisterRequestDto } from 'src/auth/auth.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { EditUserDto } from './user.dto';
+import { UserBodyDto } from './user.dto';
 
 export type UserProfile = {
   id: string;
@@ -71,9 +71,22 @@ export class UserService {
     return isRefreshTokenMatching ? user : null;
   }
 
-  async editProfile(user: User, userBody: EditUserDto): Promise<User | null> {
-    console.log(userBody);
-    return user;
+  async editProfile(user: User, userBody: UserBodyDto): Promise<User | null> {
+    if (!user) {
+      return null;
+    }
+
+    const updatedUser = await this.prismaService.user.update({
+      where: {
+        id: user.id,
+      },
+      data: {
+        introduction: userBody.introduction,
+        profilePhoto: userBody.profilePhoto,
+      },
+    });
+
+    return updatedUser;
   }
 
   async getUserList(user: User): Promise<UserProfile[]> {

@@ -12,8 +12,9 @@ export class UserResponseDto {
   profilePhoto: string;
 }
 
-export class EditUserDto {
-  @IsNumber()
-  @Type(() => Number)
-  lecture!: number;
+export class UserBodyDto {
+  @IsString()
+  introduction: string;
+  @IsString()
+  profilePhoto: string;
 }
