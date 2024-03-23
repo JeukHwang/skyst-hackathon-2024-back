@@ -177,14 +177,15 @@ export class UserService {
   async getUserNewReply(user: User): Promise<GiftResponseDto[]> {
     const newReplies = await this.prismaService.gift.findMany({
       where: {
-        receiverId: user.id,
+        senderId: user.id,
         NOT: {
-          receivedAt: null,
+          replySendedAt: null,
         },
         replyReceivedAt: null,
       },
       include: {
         item: true,
+        receiver: true,
       },
     });
 
@@ -194,6 +195,9 @@ export class UserService {
       itemId: reply.itemId,
       itemName: reply.item.name,
       itemImage: reply.item.photo,
+      date: reply.replySendedAt,
+      fromId: reply.receiver.id,
+      fromName: reply.receiver.name,
     }));
   }
 
