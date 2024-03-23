@@ -17,7 +17,8 @@ export class UserController {
 
   @Get('')
   async getUser(@CurrentUser() user: User): Promise<UserProfile> {
-    return this.userService.findById(user.id);
+    const userInfo = this.userService.findById(user.id);
+    return userInfo;
   }
 
   @Post('')

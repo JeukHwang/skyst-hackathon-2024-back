@@ -24,6 +24,7 @@ export class AuthService {
   }
 
   async register(userInfo: RegisterRequestDto) {
+    console.log(userInfo);
     const hashedPassword = await bcrypt.hash(userInfo.password, 10);
     const user = await this.userService.create({
       ...userInfo,
