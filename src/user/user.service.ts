@@ -158,6 +158,7 @@ export class UserService {
       },
       include: {
         item: true,
+        sender: true,
       },
     });
 
@@ -167,6 +168,9 @@ export class UserService {
       itemId: gift.itemId,
       itemName: gift.item.name,
       itemImage: gift.item.photo,
+      date: gift.sendedAt,
+      fromId: gift.sender.id,
+      fromName: gift.sender.name,
     }));
   }
 
