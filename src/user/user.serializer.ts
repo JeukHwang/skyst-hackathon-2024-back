@@ -3,7 +3,7 @@ import { UserResponseDto } from './user.dto';
 
 export const toJsonUser = (user: User): UserResponseDto => {
   const userResponseDto: UserResponseDto = {
-    id: user.name,
+    id: user.id,
     name: user.name,
     introduction: user.introduction,
     profilePhoto: user.profilePhoto,
