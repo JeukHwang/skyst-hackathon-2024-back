@@ -3,7 +3,8 @@ import { User } from '@prisma/client';
 import { Public } from 'src/auth/skip-auth.decorator';
 import { CurrentUser } from './user.decorator';
 import { UserProfile, UserService } from './user.service';
-import { EditUserDto } from './user.dto';
+import { EditUserDto, UserResponseDto } from './user.dto';
+import { toJsonUser } from './user.serializer';
 
 @Controller('user')
 export class UserController {
@@ -16,9 +17,9 @@ export class UserController {
   }
 
   @Get('')
-  async getUser(@CurrentUser() user: User): Promise<UserProfile> {
-    const userInfo = this.userService.findById(user.id);
-    return userInfo;
+  async getUser(@CurrentUser() user: User): Promise<UserResponseDto> {
+    const userInfo = await this.userService.findById(user.id);
+    return toJsonUser(userInfo);
   }
 
   @Post('')
