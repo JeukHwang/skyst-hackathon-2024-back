@@ -9,6 +9,13 @@ import 'dotenv/config';
 import { UserService, toUserProfile } from 'src/user/user.service';
 import { RegisterRequestDto } from './auth.dto';
 
+const cookieBase = {
+  domain: process.env.JWT_DOMAIN,
+  sameSite: 'none' as const,
+  secure: true,
+  httpOnly: true,
+};
+
 @Injectable()
 export class AuthService {
   constructor(
@@ -46,10 +53,8 @@ export class AuthService {
       expiresIn: `${process.env.JWT_ACCESS_TOKEN_EXPIRATION_TIME}s`,
     });
     return {
+      ...cookieBase,
       accessToken: token,
-      domain: 'localhost',
-      path: '/',
-      httpOnly: true,
       maxAge: Number(process.env.JWT_ACCESS_TOKEN_EXPIRATION_TIME) * 1000,
     };
   }
@@ -62,28 +67,16 @@ export class AuthService {
     });
 
     return {
+      ...cookieBase,
       refreshToken: token,
-      domain: 'localhost',
-      path: '/',
-      httpOnly: true,
       maxAge: Number(process.env.JWT_REFRESH_TOKEN_EXPIRATION_TIME) * 1000,
     };
   }
 
   getCookiesForSignOut() {
     return {
-      accessOption: {
-        domain: 'localhost',
-        path: '/',
-        httpOnly: true,
-        maxAge: 0,
-      },
-      refreshOption: {
-        domain: 'localhost',
-        path: '/',
-        httpOnly: true,
-        maxAge: 0,
-      },
+      accessOption: { ...cookieBase, maxAge: 0 },
+      refreshOption: { ...cookieBase, maxAge: 0 },
     };
   }
 }
