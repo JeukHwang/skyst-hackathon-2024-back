@@ -16,6 +16,7 @@ model User {
   name         String  @unique()
   email        String  @unique()
   password     String
+  introduction String
   profilePhoto String // S3
   refreshToken String?
 
@@ -43,6 +44,9 @@ model Item {
 model Gift {
   id String @id @default(uuid())
 
+  letter        String
+  repliedLetter String?
+
   itemId     String
   item       Item   @relation(fields: [itemId], references: [id])
   senderId   String
@@ -50,7 +54,8 @@ model Gift {
   receiverId String
   receiver   User   @relation("Receiver", fields: [receiverId], references: [id])
 
-  deletedAt DateTime?
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @default(now())
+  sendedAt        DateTime  @default(now())
+  receivedAt      DateTime?
+  replySendedAt   DateTime?
+  replyReceivedAt DateTime?
 }
