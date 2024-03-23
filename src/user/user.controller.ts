@@ -3,6 +3,7 @@ import { User } from '@prisma/client';
 import { Public } from 'src/auth/skip-auth.decorator';
 import { CurrentUser } from './user.decorator';
 import { UserProfile, UserService } from './user.service';
+import { EditUserDto } from './user.dto';
 
 @Controller('user')
 export class UserController {
@@ -22,9 +23,9 @@ export class UserController {
   @Post('')
   async postUser(
     @CurrentUser() user: User,
-    // @Body() userBody: postUserReqeustDto,
+    @Body() userBody: EditUserDto,
   ): Promise<User> {
-    return this.userService.editProfile(user);
+    return this.userService.editProfile(user, userBody);
   }
 
   @Get('list')
