@@ -15,7 +15,6 @@ async function bootstrap() {
       'http://localhost:5173', // for frontend in development
     ],
     credentials: true,
-    preflightContinue: true,
   });
   app.useGlobalPipes(new ValidationPipe());
   const PORT = process.env.PORT || 3000;
