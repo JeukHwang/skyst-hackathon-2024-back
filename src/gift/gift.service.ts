@@ -8,8 +8,12 @@ export type GiftProfile = {
   letter: string;
   repliedLetter?: string;
   itemId: string;
+  itemName?: string;
+  itemImage?: string;
   senderId: string;
+  senderName?: string;
   receiverId: string;
+  receiverName?: string;
   sendedAt?: Date;
   receivedAt?: Date;
   replySendedAt?: Date;
@@ -17,7 +21,7 @@ export type GiftProfile = {
   deletedAt?: Date;
 };
 
-export function toGiftProfile(gift: Gift): GiftProfile {
+export function toGiftProfile(gift: Gift) {
   return {
     id: gift.id,
     letter: gift.letter,
@@ -38,17 +42,65 @@ export class GiftService {
   constructor(private readonly prismaService: PrismaService) {}
 
   async getSendedGift(userId: string): Promise<GiftProfile[]> {
-    const gifts = await this.prismaService.user
-      .findUnique({ where: { id: userId } })
-      .sended();
-    return gifts.map(toGiftProfile);
+    const gifts = await this.prismaService.gift.findMany({
+      where: {
+        senderId: userId, // 선물을 보낸 사람의 ID로 필터링
+      },
+      include: {
+        item: true, // 선물과 관련된 아이템 정보 포함
+        receiver: true, // 선물을 받은 사람의 정보 포함
+        sender: true, // 선물을 보낸 사람의 정보 포함
+      },
+    });
+
+    return gifts.map((gift) => ({
+      id: gift.id,
+      letter: gift.letter,
+      repliedLetter: gift.repliedLetter,
+      itemId: gift.itemId,
+      itemName: gift.item.name, // item에서 이름 포함
+      itemImage: gift.item.photo, // item에서 이미지 포함
+      senderId: gift.senderId,
+      senderName: gift.sender.name, // sender에서 이름 포함
+      receiverId: gift.receiverId,
+      receiverName: gift.receiver.name, // receiver에서 이름 포함
+      sendedAt: gift.sendedAt,
+      receivedAt: gift.receivedAt,
+      replySendedAt: gift.replySendedAt,
+      replyReceivedAt: gift.replyReceivedAt,
+      deletedAt: gift.deletedAt,
+    }));
   }
 
   async getReceivedGift(userId: string): Promise<GiftProfile[]> {
-    const gifts = await this.prismaService.user
-      .findUnique({ where: { id: userId } })
-      .received();
-    return gifts.map(toGiftProfile);
+    const gifts = await this.prismaService.gift.findMany({
+      where: {
+        receiverId: userId, // 선물을 받은 사람의 ID로 필터링
+      },
+      include: {
+        item: true, // 선물과 관련된 아이템 정보 포함
+        sender: true, // 선물을 보낸 사람의 정보 포함
+        receiver: true, // 선물을 받은 사람의 정보 포함
+      },
+    });
+
+    return gifts.map((gift) => ({
+      id: gift.id,
+      letter: gift.letter,
+      repliedLetter: gift.repliedLetter,
+      itemId: gift.itemId,
+      itemName: gift.item.name, // item에서 이름 포함
+      itemImage: gift.item.photo, // item에서 이미지 포함
+      senderId: gift.senderId,
+      senderName: gift.sender.name, // sender에서 이름 포함
+      receiverId: gift.receiverId,
+      receiverName: gift.receiver.name, // receiver에서 이름 포함
+      sendedAt: gift.sendedAt,
+      receivedAt: gift.receivedAt,
+      replySendedAt: gift.replySendedAt,
+      replyReceivedAt: gift.replyReceivedAt,
+      deletedAt: gift.deletedAt,
+    }));
   }
 
   async sendGift(body: SendRequestDto, user: User): Promise<GiftProfile> {
