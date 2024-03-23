@@ -1,6 +1,7 @@
 import { IsString } from 'class-validator';
 
 export class UserResponseDto {
+  id: string;
   @IsString()
   name: string;
   @IsString()
