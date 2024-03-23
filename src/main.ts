@@ -12,6 +12,7 @@ async function bootstrap() {
     origin: [
       'http://localhost:5173', // for frontend in development
       'https://molato.netlify.app/', // for frontend in production
+      'https://molato.fun/', // for frontend in production
     ],
     credentials: true,
   });
