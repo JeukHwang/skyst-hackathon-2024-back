@@ -19,6 +19,7 @@ export type GiftProfile = {
   replySendedAt?: Date;
   replyReceivedAt?: Date;
   deletedAt?: Date;
+  date?: Date;
 };
 
 export function toGiftProfile(gift: Gift) {
@@ -69,6 +70,11 @@ export class GiftService {
       replySendedAt: gift.replySendedAt,
       replyReceivedAt: gift.replyReceivedAt,
       deletedAt: gift.deletedAt,
+      date: new Date(
+        gift.sendedAt.getTime() +
+          new Date().getTimezoneOffset() * 60000 +
+          9 * 60 * 60 * 1000,
+      ),
     }));
   }
 
@@ -100,6 +106,11 @@ export class GiftService {
       replySendedAt: gift.replySendedAt,
       replyReceivedAt: gift.replyReceivedAt,
       deletedAt: gift.deletedAt,
+      date: new Date(
+        gift.sendedAt.getTime() +
+          new Date().getTimezoneOffset() * 60000 +
+          9 * 60 * 60 * 1000,
+      ),
     }));
   }
 

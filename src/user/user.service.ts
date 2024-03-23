@@ -190,7 +190,11 @@ export class UserService {
       itemId: gift.itemId,
       itemName: gift.item.name,
       itemImage: gift.item.photo,
-      date: gift.sendedAt,
+      date: new Date(
+        gift.sendedAt.getTime() +
+          new Date().getTimezoneOffset() * 60000 +
+          9 * 60 * 60 * 1000,
+      ),
       fromId: gift.sender.id,
       fromName: gift.sender.name,
     }));
@@ -217,7 +221,11 @@ export class UserService {
       itemId: reply.itemId,
       itemName: reply.item.name,
       itemImage: reply.item.photo,
-      date: reply.replySendedAt,
+      date: new Date(
+        reply.replySendedAt.getTime() +
+          new Date().getTimezoneOffset() * 60000 +
+          9 * 60 * 60 * 1000,
+      ),
       fromId: reply.receiver.id,
       fromName: reply.receiver.name,
     }));
