@@ -1,3 +1,4 @@
+import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import * as cookieParser from 'cookie-parser';
 import { config } from 'dotenv';
@@ -14,6 +15,7 @@ async function bootstrap() {
     ],
     credentials: true,
   });
+  app.useGlobalPipes(new ValidationPipe());
   const PORT = process.env.PORT || 3000;
   await app.listen(PORT);
   if (process.env.NODE_ENV !== 'production') {
