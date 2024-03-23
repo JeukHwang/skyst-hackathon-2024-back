@@ -16,13 +16,13 @@ export class UserController {
     return await this.userService.findAllProfile();
   }
 
-  @Get('')
+  @Get()
   async getUser(@CurrentUser() user: User): Promise<UserResponseDto> {
     const userInfo = await this.userService.findById(user.id);
     return toJsonUser(userInfo);
   }
 
-  @Post('')
+  @Post()
   async postUser(
     @CurrentUser() user: User,
     @Body() userBody: UserBodyDto,
