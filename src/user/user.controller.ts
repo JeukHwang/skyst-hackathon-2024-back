@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Post, Body } from '@nestjs/common';
 import { User } from '@prisma/client';
 import { Public } from 'src/auth/skip-auth.decorator';
 import { CurrentUser } from './user.decorator';
@@ -14,8 +14,26 @@ export class UserController {
     return await this.userService.findAllProfile();
   }
 
-  @Get('current')
-  async getCurrentUser(@CurrentUser() user): Promise<User> {
-    return user;
+  @Get('')
+  async getUser(@CurrentUser() user: User): Promise<UserProfile> {
+    return this.userService.findById(user.id);
+  }
+
+  @Post('')
+  async postUser(
+    @CurrentUser() user: User,
+    // @Body() userBody: postUserReqeustDto,
+  ): Promise<User> {
+    return this.userService.editProfile(user);
+  }
+
+  @Get('list')
+  async userList(@CurrentUser() user: User): Promise<UserProfile[]> {
+    return this.userService.getUserList(user);
+  }
+
+  @Get('mailbox')
+  async userMailbox(@CurrentUser() user: User): Promise<UserProfile> {
+    return this.userService.getUserMailbox(user);
   }
 }

@@ -70,6 +70,22 @@ export class UserService {
     return isRefreshTokenMatching ? user : null;
   }
 
+  async editProfile(
+    user: User,
+    // userBody: postUserReqeustDto,
+  ): Promise<User | null> {
+    console.log(userBody);
+    return user;
+  }
+
+  async getUserList(user: User): Promise<UserProfile[]> {
+    return [user];
+  }
+
+  async getUserMailbox(user: User): Promise<UserProfile> {
+    return user;
+  }
+
   removeRefreshToken(id: string) {
     this.prismaService.user.update({
       where: { id },
