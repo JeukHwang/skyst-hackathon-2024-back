@@ -10,6 +10,7 @@ export type GiftProfile = {
   itemId: string;
   senderId: string;
   receiverId: string;
+  sendedAt?: Date;
   receivedAt?: Date;
   replySendedAt?: Date;
   replyReceivedAt?: Date;
@@ -24,6 +25,7 @@ export function toGiftProfile(gift: Gift): GiftProfile {
     itemId: gift.itemId,
     senderId: gift.senderId,
     receiverId: gift.receiverId,
+    sendedAt: gift.sendedAt,
     receivedAt: gift.receivedAt,
     replySendedAt: gift.replySendedAt,
     replyReceivedAt: gift.replyReceivedAt,
