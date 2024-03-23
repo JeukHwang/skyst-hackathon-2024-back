@@ -38,16 +38,16 @@ model User {
 //     updatedAt DateTime  @default(now())
 // }
 
-model UserGift {
-    id String @id @default(uuid())
+// model UserGift {
+//     id String @id @default(uuid())
 
-    name    String
-    img_src String
+//     name    String
+//     img_src String
 
-    sender   User @relation(fields: [sendedGift], references: [id])
-    receiver User @relation(fields: [wantedGift], references: [id])
+//     sender   User @relation(fields: [sendedGift], references: [id])
+//     receiver User @relation(fields: [wantedGift], references: [id])
 
-    deletedAt DateTime?
-    createdAt DateTime  @default(now())
-    updatedAt DateTime  @default(now())
-}
+//     deletedAt DateTime?
+//     createdAt DateTime  @default(now())
+//     updatedAt DateTime  @default(now())
+// }
