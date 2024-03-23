@@ -10,8 +10,7 @@ async function bootstrap() {
   app.use(cookieParser());
   app.enableCors({
     origin: [
-      'https://molato.netlify.app/', // for frontend in production
-      'https://molato.fun/', // for frontend in production
+      'https://molato.fun', // for frontend in production
       'http://localhost:5173', // for frontend in development
     ],
     credentials: true,
