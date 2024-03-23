@@ -10,6 +10,7 @@ import { UserService, toUserProfile } from 'src/user/user.service';
 import { RegisterRequestDto } from './auth.dto';
 
 const cookieBase = {
+  path: '/',
   domain: process.env.JWT_DOMAIN,
   sameSite: 'none' as const,
   secure: true,
