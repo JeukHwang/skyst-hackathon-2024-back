@@ -23,6 +23,15 @@ const profilePhotos = [
   'https://i.imgur.com/Bd783Hm.png',
   'https://i.imgur.com/X0qQgPD.png',
 ];
+const introductions = [
+  '아니, 자기소개란이 왜 이런지 모르겠또',
+  '혹시 몰라 또 몰라또 하게 될지 후훟',
+  '한 번 쓰면 빠져나갈 수 없는 몰라또',
+  '어머나! 너가 나한테 선물을 준지 몰라또',
+  '안녕하세또~ 우리 모두의 마니또 몰라또에또~',
+  '또 선물을을 하게될지 몰라또',
+  '내가 이만큼 감동을 받을지 몰라또',
+];
 
 @Injectable()
 export class UserService {
@@ -34,7 +43,8 @@ export class UserService {
           ...userInfo,
           profilePhoto:
             profilePhotos[Math.floor(Math.random() * profilePhotos.length)],
-          introduction: '',
+          introduction:
+            introductions[Math.floor(Math.random() * introductions.length)],
         } as User,
       });
       return user;
