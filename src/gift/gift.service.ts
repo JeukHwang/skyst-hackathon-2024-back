@@ -52,6 +52,9 @@ export class GiftService {
         receiver: true, // 선물을 받은 사람의 정보 포함
         sender: true, // 선물을 보낸 사람의 정보 포함
       },
+      orderBy: {
+        sendedAt: 'desc',
+      },
     });
 
     return gifts.map((gift) => ({
@@ -87,6 +90,9 @@ export class GiftService {
         item: true, // 선물과 관련된 아이템 정보 포함
         sender: true, // 선물을 보낸 사람의 정보 포함
         receiver: true, // 선물을 받은 사람의 정보 포함
+      },
+      orderBy: {
+        sendedAt: 'desc',
       },
     });
 
