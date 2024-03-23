@@ -6,9 +6,17 @@ import { TestModule } from './test/test.module';
 import { ItemModule } from './item/item.module';
 import { UserModule } from './user/user.module';
 import { GiftModule } from './gift/gift.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
-  imports: [PrismaModule, TestModule, ItemModule, UserModule, GiftModule],
+  imports: [
+    PrismaModule,
+    TestModule,
+    ItemModule,
+    UserModule,
+    GiftModule,
+    AuthModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
