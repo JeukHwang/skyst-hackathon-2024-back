@@ -120,6 +120,9 @@ export class UserService {
       },
       select: {
         id: true,
+        name: true,
+        profilePhoto: true,
+        introduction: true,
         sended: {
           select: {
             item: {
@@ -153,10 +156,7 @@ export class UserService {
 
       const balance = sentTotal - receivedTotal;
 
-      return {
-        userId: user.id,
-        balance: balance,
-      };
+      return { ...user, balance: balance };
     });
 
     // 동일한 balance가 있는 경우를 위한 랜덤화 함수
@@ -169,16 +169,7 @@ export class UserService {
 
     // balance에 따라 사용자를 정렬합니다. 동일한 경우 랜덤하게 처리
     userBalances.sort(randomizeForEqualBalances);
-
-    const sortedUsers = [];
-    for (const balance of userBalances) {
-      const user = usersWithGifts.find((u) => u.id === balance.userId);
-      if (user) {
-        sortedUsers.push(user);
-      }
-    }
-
-    return sortedUsers.slice(0, 3);
+    return userBalances.slice(0, 3) as unknown as User[];
   }
 
   async getUserNewGift(user: User): Promise<GiftResponseDto[]> {
