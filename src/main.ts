@@ -8,15 +8,7 @@ config();
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.use(cookieParser());
-  app.enableCors({
-    origin: [
-      '*',
-      'http://localhost:5173', // for frontend in development
-      'https://molato.netlify.app/', // for frontend in production
-      'https://molato.fun/', // for frontend in production
-    ],
-    credentials: true,
-  });
+  app.enableCors();
   app.useGlobalPipes(new ValidationPipe());
   const PORT = process.env.PORT || 3000;
   await app.listen(PORT);
