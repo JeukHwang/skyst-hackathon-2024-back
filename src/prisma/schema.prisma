@@ -34,6 +34,8 @@ model Item {
   name  String
   type  String
   photo String // S3
+  price Int
+  description String
 
   deletedAt DateTime?
   createdAt DateTime  @default(now())

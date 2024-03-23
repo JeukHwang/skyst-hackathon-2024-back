@@ -89,11 +89,68 @@ export class UserService {
     return updatedUser;
   }
 
-  async getUserList(user: User): Promise<UserProfile[]> {
-    return [user];
+  async getUserList(user: User): Promise<User[]> {
+    const usersWithGifts = await this.prismaService.user.findMany({
+      where: {
+        NOT: {
+          id: user.id,
+        },
+      },
+      include: {
+        sended: {
+          include: {
+            item: true,
+          },
+        },
+        received: {
+          include: {
+            item: true,
+          },
+        },
+      },
+    });
+
+    const userBalances = usersWithGifts.map((user) => {
+      const sentTotal = user.sended.reduce(
+        (total, gift) => total + gift.item.price,
+        0,
+      );
+      const receivedTotal = user.received.reduce(
+        (total, gift) => total + gift.item.price,
+        0,
+      );
+
+      const balance = sentTotal - receivedTotal;
+
+      return {
+        userId: user.id,
+        balance: balance,
+      };
+    });
+
+    // 동일한 balance가 있는 경우를 위한 랜덤화 함수
+    const randomizeForEqualBalances = (a, b) => {
+      if (a.balance === b.balance) {
+        return 0.5 - Math.random();
+      }
+      return b.balance - a.balance;
+    };
+
+    // balance에 따라 사용자를 정렬합니다. 동일한 경우 랜덤하게 처리
+    userBalances.sort(randomizeForEqualBalances);
+
+    const sortedUsers = [];
+    for (const balance of userBalances) {
+      const user = usersWithGifts.find((u) => u.id === balance.userId);
+      if (user) {
+        sortedUsers.push(user);
+      }
+    }
+
+    return sortedUsers.slice(0, 3);
   }
 
-  async getUserMailbox(user: User): Promise<UserProfile> {
+  async getUserMailbox(user: User): Promise<User> {
     return user;
   }
 

@@ -11,3 +11,7 @@ export const toJsonUser = (user: User): UserResponseDto => {
 
   return userResponseDto;
 };
+
+export const toJsonUsers = (users: User[]): UserResponseDto[] => {
+  return users.map((user) => toJsonUser(user));
+};

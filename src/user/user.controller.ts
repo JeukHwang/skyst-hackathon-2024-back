@@ -4,7 +4,7 @@ import { Public } from 'src/auth/skip-auth.decorator';
 import { CurrentUser } from './user.decorator';
 import { UserProfile, UserService } from './user.service';
 import { UserBodyDto, UserResponseDto } from './user.dto';
-import { toJsonUser } from './user.serializer';
+import { toJsonUser, toJsonUsers } from './user.serializer';
 
 @Controller('user')
 export class UserController {
@@ -32,12 +32,13 @@ export class UserController {
   }
 
   @Get('list')
-  async userList(@CurrentUser() user: User): Promise<UserProfile[]> {
-    return this.userService.getUserList(user);
+  async userList(@CurrentUser() user: User): Promise<UserResponseDto[]> {
+    const userInfos = await this.userService.getUserList(user);
+    return toJsonUsers(userInfos);
   }
 
   @Get('mailbox')
-  async userMailbox(@CurrentUser() user: User): Promise<UserProfile> {
+  async userMailbox(@CurrentUser() user: User): Promise<UserResponseDto> {
     return this.userService.getUserMailbox(user);
   }
 }
