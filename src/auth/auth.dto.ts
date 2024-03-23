@@ -5,4 +5,5 @@ export class RegisterRequestDto {
   name: string;
   @IsString()
   password: string;
+  /** @todo */
 }
