@@ -36,8 +36,6 @@ export class AuthController {
     await this.userService.setRefreshToken(user.id, refreshToken);
 
     res
-      .header('Access-Control-Allow-Headers', 'content-type2')
-      .header('Access-Control-Allow-Origin', 'https://molato.fun')
       .cookie('Authentication', accessToken, accessOption)
       .cookie('Refresh', refreshToken, refreshOption);
     return toUserProfile(user);
@@ -64,8 +62,6 @@ export class AuthController {
     await this.userService.removeRefreshToken(req.user.id);
 
     res
-      .header('Access-Control-Allow-Headers', 'content-type2')
-      .header('Access-Control-Allow-Origin', 'https://molato.fun')
       .cookie('Authentication', '', accessOption)
       .cookie('Refresh', '', refreshOption)
       .sendStatus(200);
