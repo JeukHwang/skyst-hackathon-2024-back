@@ -60,4 +60,5 @@ model Gift {
   receivedAt      DateTime?
   replySendedAt   DateTime?
   replyReceivedAt DateTime?
+  deletedAt DateTime?
 }

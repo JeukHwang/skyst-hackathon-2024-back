@@ -3,7 +3,7 @@ import { User } from '@prisma/client';
 import { Public } from 'src/auth/skip-auth.decorator';
 import { CurrentUser } from './user.decorator';
 import { UserProfile, UserService } from './user.service';
-import { UserBodyDto, UserResponseDto } from './user.dto';
+import { GiftResponseDto, UserBodyDto, UserResponseDto } from './user.dto';
 import { toJsonUser, toJsonUsers } from './user.serializer';
 
 @Controller('user')
@@ -37,8 +37,20 @@ export class UserController {
     return toJsonUsers(userInfos);
   }
 
-  @Get('mailbox')
-  async userMailbox(@CurrentUser() user: User): Promise<UserResponseDto> {
-    return this.userService.getUserMailbox(user);
+  @Get('newGift')
+  async userNewGift(@CurrentUser() user: User): Promise<GiftResponseDto[]> {
+    return this.userService.getUserNewGift(user);
+  }
+
+  @Get('newReply')
+  async userNewReply(@CurrentUser() user: User): Promise<GiftResponseDto[]> {
+    return this.userService.getUserNewReply(user);
+  }
+
+  @Get('newCnt')
+  async userNewCnt(
+    @CurrentUser() user: User,
+  ): Promise<{ gift: number; reply: number; total: number }> {
+    return this.userService.getUserNewCnt(user);
   }
 }

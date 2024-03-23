@@ -3,7 +3,7 @@ import { User } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
 import { RegisterRequestDto } from 'src/auth/auth.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { UserBodyDto } from './user.dto';
+import { GiftResponseDto, UserBodyDto } from './user.dto';
 
 export type UserProfile = {
   id: string;
@@ -150,8 +150,68 @@ export class UserService {
     return sortedUsers.slice(0, 3);
   }
 
-  async getUserMailbox(user: User): Promise<User> {
-    return user;
+  async getUserNewGift(user: User): Promise<GiftResponseDto[]> {
+    const newGifts = await this.prismaService.gift.findMany({
+      where: {
+        receiverId: user.id,
+        receivedAt: null,
+      },
+      include: {
+        item: true,
+      },
+    });
+
+    // Gift[]를 GiftResponseDto[]로 변환
+    return newGifts.map((gift) => ({
+      id: gift.id,
+      itemId: gift.itemId,
+      itemName: gift.item.name,
+      itemImage: gift.item.photo,
+    }));
+  }
+
+  async getUserNewReply(user: User): Promise<GiftResponseDto[]> {
+    const newReplies = await this.prismaService.gift.findMany({
+      where: {
+        receiverId: user.id,
+        NOT: {
+          receivedAt: null,
+        },
+        replyReceivedAt: null,
+      },
+      include: {
+        item: true,
+      },
+    });
+
+    // Gift[]를 GiftResponseDto[]로 변환
+    return newReplies.map((reply) => ({
+      id: reply.id,
+      itemId: reply.itemId,
+      itemName: reply.item.name,
+      itemImage: reply.item.photo,
+    }));
+  }
+
+  async getUserNewCnt(
+    user: User,
+  ): Promise<{ gift: number; reply: number; total: number }> {
+    // 새 선물의 개수 조회
+    const newGifts = await this.getUserNewGift(user);
+    const gift = newGifts.length;
+
+    // 새 답장의 개수 조회
+    const newReplies = await this.getUserNewReply(user);
+    const reply = newReplies.length;
+
+    const total = gift + reply;
+
+    // 새 선물과 새 답장의 총 개수 반환
+    return {
+      gift,
+      reply,
+      total,
+    };
   }
 
   removeRefreshToken(id: string) {

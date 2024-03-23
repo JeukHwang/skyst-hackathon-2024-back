@@ -18,3 +18,10 @@ export class UserBodyDto {
   @IsString()
   profilePhoto: string;
 }
+
+export class GiftResponseDto {
+  id: string;
+  itemId: string;
+  itemName: string;
+  itemImage: string;
+}
