@@ -17,13 +17,25 @@ export function toUserProfile(user: User): UserProfile {
   };
 }
 
+const profilePhotos = [
+  'https://i.imgur.com/rMtvNpZ.png',
+  'https://i.imgur.com/JaDHt2e.png',
+  'https://i.imgur.com/Bd783Hm.png',
+  'https://i.imgur.com/X0qQgPD.png',
+];
+
 @Injectable()
 export class UserService {
   constructor(private readonly prismaService: PrismaService) {}
   async create(userInfo: RegisterRequestDto): Promise<User | null> {
     try {
       const user = await this.prismaService.user.create({
-        data: { ...userInfo, profilePhoto: '', introduction: '' } as User,
+        data: {
+          ...userInfo,
+          profilePhoto:
+            profilePhotos[Math.floor(Math.random() * profilePhotos.length)],
+          introduction: '',
+        } as User,
       });
       return user;
     } catch (e) {
