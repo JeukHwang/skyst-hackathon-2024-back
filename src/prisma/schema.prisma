@@ -1,0 +1,53 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DB_URL_DEV")
+}
+
+model User {
+  id String @id @default(uuid())
+
+  nickname     String  @unique()
+  email        String  @unique()
+  password     String
+  profilePhoto String
+  refreshToken String?
+
+  deletedAt DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now())
+}
+
+// model Gift {
+//     id String @id @default(uuid())
+
+//     name    String
+//     img_src String
+
+//     sender   User @relation(fields: [sendedGift], references: [id])
+//     receiver User @relation(fields: [wantedGift], references: [id])
+
+//     deletedAt DateTime?
+//     createdAt DateTime  @default(now())
+//     updatedAt DateTime  @default(now())
+// }
+
+model UserGift {
+    id String @id @default(uuid())
+
+    name    String
+    img_src String
+
+    sender   User @relation(fields: [sendedGift], references: [id])
+    receiver User @relation(fields: [wantedGift], references: [id])
+
+    deletedAt DateTime?
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @default(now())
+}
