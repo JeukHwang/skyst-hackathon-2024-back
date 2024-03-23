@@ -33,7 +33,7 @@ model Item {
 
   name  String
   type  String
-  photo String // S3
+  photo String
   price Int
   description String
 
