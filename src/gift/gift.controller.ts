@@ -35,7 +35,10 @@ export class GiftController {
   }
 
   @Get(':id')
-  find(@Param('id') giftId: string, user: User): Promise<GiftProfile> {
+  find(
+    @Param('id') giftId: string,
+    @CurrentUser() user: User,
+  ): Promise<GiftProfile> {
     return this.giftService.find(giftId, user);
   }
 }
