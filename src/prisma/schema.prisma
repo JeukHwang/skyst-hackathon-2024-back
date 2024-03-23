@@ -16,38 +16,41 @@ model User {
   nickname     String  @unique()
   email        String  @unique()
   password     String
-  profilePhoto String
+  profilePhoto String // S3
   refreshToken String?
+
+  sended   Gift[] @relation("Sender")
+  received Gift[] @relation("Receiver")
 
   deletedAt DateTime?
   createdAt DateTime  @default(now())
   updatedAt DateTime  @default(now())
 }
 
-// model Gift {
-//     id String @id @default(uuid())
+model Item {
+  id String @id @default(uuid())
 
-//     name    String
-//     img_src String
+  name  String
+  type  String
+  photo String // S3
 
-//     sender   User @relation(fields: [sendedGift], references: [id])
-//     receiver User @relation(fields: [wantedGift], references: [id])
+  deletedAt DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now())
+  Gift      Gift[]
+}
 
-//     deletedAt DateTime?
-//     createdAt DateTime  @default(now())
-//     updatedAt DateTime  @default(now())
-// }
+model Gift {
+  id String @id @default(uuid())
 
-// model UserGift {
-//     id String @id @default(uuid())
+  itemId     String
+  item       Item   @relation(fields: [itemId], references: [id])
+  senderId   String
+  sender     User   @relation("Sender", fields: [senderId], references: [id])
+  receiverId String
+  receiver   User   @relation("Receiver", fields: [receiverId], references: [id])
 
-//     name    String
-//     img_src String
-
-//     sender   User @relation(fields: [sendedGift], references: [id])
-//     receiver User @relation(fields: [wantedGift], references: [id])
-
-//     deletedAt DateTime?
-//     createdAt DateTime  @default(now())
-//     updatedAt DateTime  @default(now())
-// }
+  deletedAt DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now())
+}
